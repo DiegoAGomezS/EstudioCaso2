@@ -1,0 +1,24 @@
+# Ignorar todas las carpetas de configuración de Visual Studio
+.vs/
+**/.vs/
+*.user
+*.suo
+
+# Ignorar binarios y temporales de compilación
+bin/
+obj/
+Debug/
+Release/
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+
+# Archivos de caché o bases de datos de VS
+*.db
+*.cache
+*.vsidx
+
+# Otros archivos temporales
+*.tmp
+*.log
