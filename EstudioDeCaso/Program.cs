@@ -75,6 +75,12 @@ namespace EstudioCaso2
                 colaSolicitudes.Enqueue(asignatura);
                 Console.WriteLine($" '{asignatura}' agregada correctamente. Ingrese otra asignatura o 'salir' para terminar:");
             }
+
+            Console.WriteLine("\n--- Asignaturas inscritas ---");
+            foreach (var materia in colaSolicitudes)
+            {
+                Console.WriteLine($"- {materia}");
+            }
         }
 
         static void MostrarAsignaturas()
