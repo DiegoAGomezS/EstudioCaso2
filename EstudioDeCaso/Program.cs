@@ -30,7 +30,8 @@ namespace EstudioCaso2
                 Console.WriteLine("2. Ver asignaturas inscritas");
                 Console.WriteLine("3. Ingresar notas (Encolar)");
                 Console.WriteLine("4. Consultar notas (en orden de registro)");
-                Console.WriteLine("5. Salir");
+                Console.WriteLine("5. Desinscribir asignatura (Desencolar)");
+                Console.WriteLine("6. Salir");
                 Console.Write("\nSeleccione una opción: ");
 
                 if (!int.TryParse(Console.ReadLine(), out opcion))
@@ -61,6 +62,11 @@ namespace EstudioCaso2
                         ConsultarNotas();
                         break;
                     case 5:
+                        // Simula el proceso de atender una solicitud del servidor eliminando la primera asignatura en cola.
+                        DesinscribirAsignatura();
+                        break;
+
+                    case 6:
                         Console.WriteLine("\n Saliendo del sistema...");
                         break;
 
@@ -71,7 +77,7 @@ namespace EstudioCaso2
 
                 Console.ReadKey();
 
-            } while (opcion != 5);
+            } while (opcion != 6);
         }
 
         static void InscribirAsignaturas()
@@ -202,6 +208,48 @@ namespace EstudioCaso2
             {
                 string estado = notas[i] >= 60 ? "Aprobado" : "Reprobado";
                 Console.WriteLine($"{materias[i].PadRight(anchoAsignatura)}\t{notas[i],-8:F1}{estado}");
+            }
+
+            Console.WriteLine("\nPresione una tecla para regresar al menú...");
+        }
+
+        static void DesinscribirAsignatura()
+        {
+            Console.WriteLine("\n--- DESINSCRIPCIÓN DE ASIGNATURAS (Desencolar) ---");
+
+            // Si no hay asignaturas, no hay nada que eliminar.
+            if (colaSolicitudes.Count == 0)
+            {
+                Console.WriteLine(" No hay asignaturas para desinscribir.");
+                return;
+            }
+
+            // Muestra la primera asignatura que será eliminada (principio FIFO)
+            string asignaturaEliminada = colaSolicitudes.Dequeue();
+
+            // Si hay notas registradas, también se elimina la primera nota correspondiente
+            if (colaNotas.Count > 0)
+            {
+                double notaEliminada = colaNotas.Dequeue();
+                Console.WriteLine($"\n Se ha desinscrito la asignatura '{asignaturaEliminada}' junto con su nota ({notaEliminada:F1}).");
+            }
+            else
+            {
+                Console.WriteLine($"\n Se ha desinscrito la asignatura '{asignaturaEliminada}', sin nota registrada.");
+            }
+
+            // Muestra el estado actualizado de la cola
+            if (colaSolicitudes.Count > 0)
+            {
+                Console.WriteLine("\n--- Asignaturas restantes en la cola ---");
+                foreach (var materia in colaSolicitudes)
+                {
+                    Console.WriteLine($"- {materia}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\n No quedan asignaturas en la cola.");
             }
 
             Console.WriteLine("\nPresione una tecla para regresar al menú...");
